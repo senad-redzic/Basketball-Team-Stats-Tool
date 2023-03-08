@@ -74,7 +74,7 @@ def display_stats():
     elif team_option == "2":
       choosen_team = balance_teams()[1]
     else:
-      choosen_team = balance_teams()[2]
+      choosen_team = balance_teams()[2] 
 
     for team in choosen_team:
         # Team's name as a string
