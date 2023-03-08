@@ -100,7 +100,7 @@ def display_stats():
     print("Players on Team: {}".format(all_names))
 
     want_to_continue = input("Do you want to continue? Y/N ")
-    if want_to_continue == "Y":
+    if want_to_continue.lower() == "y":
        display_stats()
     else:
        exit()
