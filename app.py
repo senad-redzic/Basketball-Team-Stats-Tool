@@ -1,4 +1,6 @@
 import logging
+import copy
+from copy import deepcopy
 
 from constants import PLAYERS
 from constants import TEAMS
@@ -10,11 +12,12 @@ logging.basicConfig(filename=log, level=logging.DEBUG)
 new_teams = []
 
 def clean_data():
-    global all_players 
-    all_players  = PLAYERS.copy()
+    global all_players
+    all_players = copy.deepcopy(PLAYERS)
+
     for player in all_players:
         player_height = player["height"].split()
-        player["height"] = player_height[0]
+        player["height"] = int(player_height[0])
 
         player_experience = player["experience"]
         if player_experience == "YES":
@@ -64,13 +67,19 @@ def display_stats():
     """)
 
     team_option = input("Enter an option:  ")
-    
+
     if team_option == "1":
       choosen_team = balance_teams()[0]
     elif team_option == "2":
       choosen_team = balance_teams()[1]
+    elif team_option == "3":
+      choosen_team = balance_teams()[2]
     else:
-      choosen_team = balance_teams()[2] 
+      want_to_continue = input("Sorry, not valid option. Do you want to continue? Y/N ")
+      if want_to_continue.lower() == "y":
+        display_stats()
+      else:
+        exit()
 
     for team in choosen_team:
         # Team's name as a string
@@ -99,9 +108,17 @@ def display_stats():
         display_stats()
     else:
         exit()
+  elif menu_option == "2":
+    exit()
   else:
-      exit()
+      want_to_continue = input(
+          "Sorry, not valid option. Do you want to try again? Y/N ")
+      if want_to_continue.lower() == "y":
+        display_stats()
+      else:
+        exit()
 
 if __name__ == "__main__":
   clean_data()
   display_stats()
+
