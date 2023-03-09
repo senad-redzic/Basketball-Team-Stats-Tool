@@ -2,54 +2,50 @@ import logging
 
 from constants import PLAYERS
 from constants import TEAMS
- 
+
 # logging
 log = "debug.log"
 logging.basicConfig(filename=log, level=logging.DEBUG)
-
-all_players = PLAYERS.copy()
+#this list will be used 
 new_teams = []
 
-if __name__ == "__main__":
+def clean_data():
+    global all_players 
+    all_players  = PLAYERS.copy()
+    for player in all_players:
+        player_height = player["height"].split()
+        player["height"] = player_height[0]
 
+        player_experience = player["experience"]
+        if player_experience == "YES":
+            player["experience"] = True
+        else:
+            player["experience"] = False
+        all_players = all_players
 
-    def clean_data():
-       for player in all_players:
-           player_height = player["height"].split()
-           player["height"] = player_height[0]
+def balance_teams():
+    teams = TEAMS.copy()
 
-           player_experience = player["experience"]
-           if player_experience == "YES":
-               player["experience"] = True
-           else:
-               player["experience"] = False
-           all_players = all_players
-
-    def balance_teams():
-      teams = TEAMS.copy()
-
-      num_of_teams = int(len(TEAMS))
-      num_of_players = int(len(all_players))
-      num_players_team = int((num_of_players / num_of_teams))
+    num_of_teams = int(len(TEAMS))
+    num_of_players = int(len(all_players))
+    num_players_team = int((num_of_players / num_of_teams))
       
-      squads = []
-      for i in range(0, num_of_players, num_players_team):
-          squads.append(all_players[i:i + num_players_team])
+    squads = []
+    for i in range(0, num_of_players, num_players_team):
+        squads.append(all_players[i:i + num_players_team])
 
-      team_lists = []
-      for i in range(num_of_teams):
-          teams_name = teams[i]
-          squad = squads[i]
-          team_list = [{"team": teams_name, "players": squad}]
-          team_lists.append(team_list)
+    team_lists = []
+    for i in range(num_of_teams):
+      teams_name = teams[i]
+      squad = squads[i]
+      team_list = [{"team": teams_name, "players": squad}]
+      team_lists.append(team_list)
       #logging.debug(team_lists)
-      return team_lists
-
+    return team_lists
 
 # DISPLAY
 def display_stats(): 
   print("BASKETBALL TEAM STATS TOOL")
-
   print("---- MENU----")
 
   print("""
@@ -91,7 +87,6 @@ def display_stats():
         # Total players on that team as an integer
         number_of_players = len(player_names)
 
-    
     print("Team: {}".format(team_name))
     print("--------------------")
             
@@ -101,10 +96,12 @@ def display_stats():
 
     want_to_continue = input("Do you want to continue? Y/N ")
     if want_to_continue.lower() == "y":
-       display_stats()
+        display_stats()
     else:
-       exit()
+        exit()
   else:
-    exit()
+      exit()
 
-display_stats()
+if __name__ == "__main__":
+  clean_data()
+  display_stats()
